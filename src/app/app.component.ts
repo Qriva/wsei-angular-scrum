@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  activeLinkIndex = 0;
+  routes = [
+    { path: 'backlog',  label: 'Backlog' },
+    { path: 'board',    label: 'Board' },
+  ];
 }
