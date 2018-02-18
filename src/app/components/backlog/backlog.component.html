@@ -1,2 +1,79 @@
-backlog tutaj
-<a routerLink="/board" routerLinkActive="active">Board</a>
+<div class="content-wrapper">
+    <mat-toolbar>
+        <span>Current Sprint</span>
+    </mat-toolbar>  
+     
+    <mat-card *ngIf="sprintCreated()">
+        <mat-card-header>
+            <mat-card-title>Sprint 1?</mat-card-title>
+            <mat-card-subtitle>subtitle</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>
+                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+                bred for hunting.
+            </p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="!sprintCreated()">
+        <mat-card-header>
+            <mat-card-title><h4>Create new Sprint</h4></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form #sprintform="ngForm" (ngSubmit)="onSprintFormSubmit(sprintform)">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Name" value="">
+                </mat-form-field>
+              
+                <mat-form-field>
+                    <input name="sprint-start-date" matInput [min]="minDate" [matDatepicker]="picker1" placeholder="Start date">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                    <input name="sprint-end-date" matInput [min]="minDate" [matDatepicker]="picker2" placeholder="End date">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+              
+                <div>
+                    <button type="submit" mat-raised-button color="primary">Create</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    
+    <mat-toolbar class="backlog-section" color="primary">
+        <span>Backlog</span>
+    </mat-toolbar>
+
+
+    <mat-card>
+        <ng-container *ngFor="let task of getBacklogTasks()">
+            <mat-card [ngClass]="['task-row', task.type]" >
+                {{ task.id + task.type }}
+            </mat-card>
+        </ng-container>
+    </mat-card>
+
+    <mat-card class="task-add-panel">
+        <form #form="ngForm" (ngSubmit)="onTaskFormSubmit(form)">
+            <div class="panel-task-color"></div>
+            <mat-form-field>
+                <mat-select name="task-type" [(ngModel)]="newTaskType">
+                    <mat-option value="task"><span class="task-color task"></span>Task</mat-option>
+                    <mat-option value="feature"><span class="task-color feature"></span>Feature</mat-option>
+                    <mat-option value="bug"><span class="task-color bug"></span>Bug</mat-option>
+                    <mat-option value="improvement"><span class="task-color improvement"></span>Improvement</mat-option>
+                    <mat-option value="research"><span class="task-color research"></span>Research</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input matInput name="task-title" placeholder="New task" [(ngModel)]="newTaskTitle" #title="ngModel">      
+            </mat-form-field>
+            <button type="submit" mat-icon-button color="primary">+</button>
+        </form>
+    </mat-card>
+</div>

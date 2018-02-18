@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span>My Application</span>
 </mat-toolbar>
-<nav mat-tab-nav-bar>
+<nav mat-tab-nav-bar class="app-nav">
   <a mat-tab-link
      *ngFor="let route of routes; let i = index"
      [routerLink]="route.path"
