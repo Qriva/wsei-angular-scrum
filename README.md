@@ -2,6 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.0.
 
+## How to use
+
+Application was divided for two sections: Backlog and Board. Backlog provide possiblity to create and edit tasks (click to edit) so they can be moved to Sprint later. Board section shows TODO, Progress and Done tasks. Tasks can be moved freely between columns. After finishing all tasks, Sprint can be closed to make place for new one. Application state is saved localy so it does not dissapear after resfreshing or closing browser.
+![board](https://i.imgur.com/B5Goa9X.png)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
