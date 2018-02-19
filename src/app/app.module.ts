@@ -26,6 +26,7 @@ import { AppState, default as reducer } from './app.reducer';
 import { AppStore, appStoreProviders } from './app.store';
 import { NewSprintDialogComponent } from './components/new-sprint-dialog/new-sprint-dialog.component';
 import { EditTaskDialogComponent } from './components/edit-task-dialog/edit-task-dialog.component';
+import { LocalSaveService } from './services/local-save.service';
 
 
 export const appRoutes: Routes = [
@@ -78,7 +79,7 @@ export const appRoutes: Routes = [
     NewSprintDialogComponent,
     EditTaskDialogComponent
   ],
-  providers: [appStoreProviders],
+  providers: [appStoreProviders, LocalSaveService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

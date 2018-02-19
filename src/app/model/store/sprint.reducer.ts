@@ -24,9 +24,19 @@ export interface SprintState {
     current: Sprint;
 };
 
-const initialState: SprintState = {
+let initialState: SprintState = {
     current: null
 };
+
+// Load saved state if exists
+let loadedState = JSON.parse(localStorage.getItem("sprint-redux-state"));
+if(loadedState !== null){
+    if(loadedState.current !== null){
+        loadedState.current.start = new Date(loadedState.current.start);
+        loadedState.current.end = new Date(loadedState.current.end);
+        initialState = loadedState;
+    } 
+}
 
 /**
  * 

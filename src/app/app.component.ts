@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { LocalSaveService } from './services/local-save.service';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,9 @@ export class AppComponent {
     { path: 'backlog',  label: 'Backlog' },
     { path: 'board',    label: 'Board' },
   ];
+
+  constructor (@Inject(LocalSaveService) private localSaveService: LocalSaveService) {
+    localSaveService.init();
+  }
+
 }

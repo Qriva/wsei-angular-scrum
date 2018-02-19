@@ -25,11 +25,19 @@ export interface BacklogState {
     currentTaskId: string;
 };
 
-const initialState: BacklogState = {
+
+
+let initialState: BacklogState = {
     ids: [],
     currentTaskId: null,
     tasks: []
 };
+
+// Load saved state if exists
+let loadedState = JSON.parse(localStorage.getItem("backlog-redux-state"));
+if(loadedState !== null){
+    initialState = loadedState;
+}
 
 /**
  * 
