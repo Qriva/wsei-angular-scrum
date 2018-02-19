@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import * as TaskActions from './backlog.actions';
+import * as BacklogActions from './backlog.actions';
 import { Task } from '../task/task.model';
 
 /**
@@ -20,9 +20,9 @@ import { Task } from '../task/task.model';
  */
 
 export interface BacklogState {
-    ids: string[];
+    ids: Array<string>;
     tasks: Task[];
-    currentTaskId?: string;
+    currentTaskId: string;
 };
 
 const initialState: BacklogState = {
@@ -36,8 +36,10 @@ export const BacklogReducer = function(state: BacklogState = initialState, actio
 
     switch (action.type) {
         // Adds a new Task
-        case TaskActions.CREATE_TASK: {
-            const task = (<TaskActions.CreateTaskAction>action).task;
+
+        case BacklogActions.ADD_TASK: {
+
+            const task = (<BacklogActions.AddTaskAction>action).task;
 
             if (state.ids.includes(task.id)) {
                 return state;
@@ -50,56 +52,41 @@ export const BacklogReducer = function(state: BacklogState = initialState, actio
             };
         }
 
-    // // Adds a new Message to a particular Thread
-    // case ThreadActions.ADD_MESSAGE: {
-    //   const thread = (<ThreadActions.AddMessageAction>action).thread;
-    //   const message = (<ThreadActions.AddMessageAction>action).message;
+        case BacklogActions.REMOVE_TASK_FROM_BACKLOG: {
+            const task = (<BacklogActions.RemoveTaskAction>action).task;
 
-    //   // special case: if the message being added is in the current thread, then
-    //   // mark it as read
-    //   const isRead = message.thread.id === state.currentThreadId ?
-    //                   true : message.isRead;
-    //   const newMessage = Object.assign({}, message, { isRead: isRead });
+            let taskIndex = state.ids.indexOf(task.id);
+            // Skip if -1 becasue does not exist
+            if (taskIndex === -1) {
+                return state;
+            }
+            
+            return {
+                ids: [ ...state.ids.slice(0, taskIndex), ...state.ids.slice(taskIndex + 1) ],
+                currentTaskId: state.currentTaskId,
+                tasks: [ ...state.tasks.slice(0, taskIndex), ...state.tasks.slice(taskIndex + 1) ],
+            };
+        }
 
-    //   // grab the old thread from entities
-    //   const oldThread = state.entities[thread.id];
+        case BacklogActions.EDIT_TASK: {
+            const task = (<BacklogActions.EditTaskAction>action).task;
 
-    //   // create a new thread which has our newMessage
-    //   const newThread = Object.assign({}, oldThread, {
-    //     messages: [...oldThread.messages, newMessage]
-    //   });
-
-    //   return {
-    //     ids: state.ids, // unchanged
-    //     currentThreadId: state.currentThreadId, // unchanged
-    //     entities: Object.assign({}, state.entities, {
-    //       [thread.id]: newThread
-    //     })
-    //   };
-    // }
-
-    // // Select a particular thread in the UI
-    // case ThreadActions.SELECT_THREAD: {
-    //   const thread = (<ThreadActions.SelectThreadAction>action).thread;
-    //   const oldThread = state.entities[thread.id];
-
-    //   // mark the messages as read
-    //   const newMessages = oldThread.messages.map(
-    //     (message) => Object.assign({}, message, { isRead: true }));
-
-    //   // give them to this new thread
-    //   const newThread = Object.assign({}, oldThread, {
-    //     messages: newMessages
-    //   });
-
-    //   return {
-    //     ids: state.ids,
-    //     currentThreadId: thread.id,
-    //     entities: Object.assign({}, state.entities, {
-    //       [thread.id]: newThread
-    //     })
-    //   };
-    // }
+            let taskIndex = state.ids.indexOf(task.id);
+            // Skip if -1 becasue does not exist
+            if (taskIndex === -1) {
+                return state;
+            }
+            
+            return {
+                ids: [ ...state.ids ],
+                currentTaskId: state.currentTaskId,
+                tasks: [ 
+                    ...state.tasks.slice(0, taskIndex),
+                    task,
+                    ...state.tasks.slice(taskIndex + 1) 
+                ],
+            };
+        }
 
         default:
             return state;

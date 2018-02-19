@@ -32,48 +32,59 @@ const initialState: SprintState = {
 export const SprintReducer = function(state: SprintState = initialState, action: Action): SprintState {
 
     switch (action.type) {
-        // Adds a new Task
-        // case TaskActions.ADD_TASK: {
-        //     const task = (<TaskActions.AddTaskAction>action).task;
+        // Create new sprint
+        case SprintActions.CREATE_SPRINT: {
+            const sprint = (<SprintActions.CreateSprintAction>action).sprint;
 
-        //     if (state.ids.includes(task.id)) {
-        //         return state;
-        //     }
+            if (state.current) {
+                return state;
+            }
 
-        //     return {
-        //         ids: [ ...state.ids, task.id ],
-        //         currentTaskId: state.currentTaskId,
-        //         tasks: [ ...state.tasks,  task ] 
-        //     };
-        // }
+            return {
+                current: sprint
+            };
+        }
 
-    // // Adds a new Message to a particular Thread
-    // case ThreadActions.ADD_MESSAGE: {
-    //   const thread = (<ThreadActions.AddMessageAction>action).thread;
-    //   const message = (<ThreadActions.AddMessageAction>action).message;
+        case SprintActions.ADD_TASK_TO_SPRINT: {
+            const task = (<SprintActions.AddTaskToSprintAction>action).task;
+            
+            // Skip if sprint does not exist
+            if (!state.current) {
+                return state;
+            }
+            // Skip if task with id exists already
+            if (state.current.todo.filter(e => e.id === task.id).length > 0) {
+                return;
+            }
 
-    //   // special case: if the message being added is in the current thread, then
-    //   // mark it as read
-    //   const isRead = message.thread.id === state.currentThreadId ?
-    //                   true : message.isRead;
-    //   const newMessage = Object.assign({}, message, { isRead: isRead });
+            return {
+                current: Object.assign({}, state.current, {
+                    todo: [ ...state.current.todo, task ]
+                })
+            };
+        }
 
-    //   // grab the old thread from entities
-    //   const oldThread = state.entities[thread.id];
+        case SprintActions.REMOVE_TASK_FROM_TODO: {
+            const task = (<SprintActions.AddTaskToSprintAction>action).task;
+            
+            // Skip if sprint does not exist
+            if (!state.current) {
+                return state;
+            }
 
-    //   // create a new thread which has our newMessage
-    //   const newThread = Object.assign({}, oldThread, {
-    //     messages: [...oldThread.messages, newMessage]
-    //   });
+            let taskIndex = state.current.todo.map(function(x) { return x.id; }).indexOf(task.id);
 
-    //   return {
-    //     ids: state.ids, // unchanged
-    //     currentThreadId: state.currentThreadId, // unchanged
-    //     entities: Object.assign({}, state.entities, {
-    //       [thread.id]: newThread
-    //     })
-    //   };
-    // }
+            // Skip if task with id does not exists
+            if (taskIndex === -1) {
+                return;
+            }
+
+            return {
+                current: Object.assign({}, state.current, {
+                    todo: [ ...state.current.todo.slice(0, taskIndex), ...state.current.todo.slice(taskIndex + 1) ]
+                })
+            };
+        }
 
         default:
             return state;

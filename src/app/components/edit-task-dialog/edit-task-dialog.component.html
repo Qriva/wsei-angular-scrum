@@ -1,0 +1,25 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit(myForm.value)">
+  
+  <mat-form-field>
+      <input matInput placeholder="Name" [formControl]="name">
+  </mat-form-field>
+
+  <mat-form-field class="task-type-field">
+      <mat-select placeholder="Type" [formControl]="type">
+          <mat-option value="task"><span class="task-color task"></span>Task</mat-option>
+          <mat-option value="feature"><span class="task-color feature"></span>Feature</mat-option>
+          <mat-option value="bug"><span class="task-color bug"></span>Bug</mat-option>
+          <mat-option value="improvement"><span class="task-color improvement"></span>Improvement</mat-option>
+          <mat-option value="research"><span class="task-color research"></span>Research</mat-option>
+      </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="Description" [formControl]="description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput type="number" placeholder="Points" [formControl]="points">
+  </mat-form-field>
+
+</form>

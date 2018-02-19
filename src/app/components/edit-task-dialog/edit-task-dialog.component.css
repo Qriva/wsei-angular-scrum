@@ -1,0 +1,28 @@
+.mat-form-field{
+    width: 100%;
+}
+
+.task-color{
+    background: rgba(0, 0, 0, 0);
+    width: 0.8em;
+    height: 0.8em;
+    display: inline-block;
+    margin-top: 0.1em;
+    margin-right: 1em;
+}
+
+.task-color.research{
+    background: #38b453;
+}
+.task-color.task{
+    background: #3962b4;
+}
+.task-color.feature{
+    background: #28b2ca;
+}
+.task-color.bug{
+    background: #c04122;
+}
+.task-color.improvement{
+    background: #6d36af;
+}

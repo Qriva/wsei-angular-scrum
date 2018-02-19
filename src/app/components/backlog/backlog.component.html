@@ -3,46 +3,32 @@
         <span>Current Sprint</span>
     </mat-toolbar>  
      
-    <mat-card *ngIf="sprintCreated()">
+    <mat-card *ngIf="currentSprint !== null">
         <mat-card-header>
-            <mat-card-title>Sprint 1?</mat-card-title>
-            <mat-card-subtitle>subtitle</mat-card-subtitle>
+            <mat-card-title>
+                <span> {{ currentSprint.name }} </span>
+            </mat-card-title>
+            <mat-card-subtitle>{{ currentSprint.start | date:'M/d/yy' }} - {{ currentSprint.end | date:'M/d/yy' }}</mat-card-subtitle>
         </mat-card-header>
-        <mat-card-content>
-            <p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                bred for hunting.
-            </p>
+        <mat-card-content>      
+            <ng-container *ngFor="let task of currentSprint.todo">
+                <mat-card [ngClass]="['task-row', task.type]" >
+                    <mat-chip-list>
+                        <mat-chip>{{ task.points }}</mat-chip>
+                        <span>{{ task.name }}</span>
+                        <span class="content-spacer"></span>
+                        <button mat-button (click)="moveTaskToBacklog(task)" color="primary" >Move to Backlog</button>
+                    </mat-chip-list>
+                </mat-card>
+            </ng-container>
+            <div class="total-points">
+                <mat-chip-list><span class="content-spacer"></span><span>Total points </span> <mat-chip>{{ sumSprintTODOPoints() }}</mat-chip></mat-chip-list>
+            </div>
         </mat-card-content>
     </mat-card>
 
-    <mat-card *ngIf="!sprintCreated()">
-        <mat-card-header>
-            <mat-card-title><h4>Create new Sprint</h4></mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <form #sprintform="ngForm" (ngSubmit)="onSprintFormSubmit(sprintform)">
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Name" value="">
-                </mat-form-field>
-              
-                <mat-form-field>
-                    <input name="sprint-start-date" matInput [min]="minDate" [matDatepicker]="picker1" placeholder="Start date">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-                <mat-form-field>
-                    <input name="sprint-end-date" matInput [min]="minDate" [matDatepicker]="picker2" placeholder="End date">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field>
-              
-                <div>
-                    <button type="submit" mat-raised-button color="primary">Create</button>
-                </div>
-            </form>
-        </mat-card-content>
+    <mat-card *ngIf="currentSprint === null" [ngClass]="['text-centered']" >
+        <button (click)="openSprintCreateDialog()" mat-raised-button color="primary" >Create Sprint</button>
     </mat-card>
     
     <mat-toolbar class="backlog-section" color="primary">
@@ -51,17 +37,21 @@
 
 
     <mat-card>
-        <ng-container *ngFor="let task of getBacklogTasks()">
-            <mat-card [ngClass]="['task-row', task.type]" >
-                {{ task.id + task.type }}
+        <ng-container *ngFor="let task of backlogTasks">
+            <mat-card [ngClass]="['task-row', task.type]" (click)="openTaskDetailsDialog(task)">
+                <mat-chip-list>
+                    <mat-chip>{{ task.points }}</mat-chip>
+                    <span>{{ task.name }}</span>
+                    <span class="content-spacer"></span>
+                    <button mat-button (click)="moveTaskToSprint(task)" [disabled]="currentSprint == null" color="primary" >Move to sprint</button>
+                </mat-chip-list>
             </mat-card>
         </ng-container>
     </mat-card>
 
     <mat-card class="task-add-panel">
         <form #form="ngForm" (ngSubmit)="onTaskFormSubmit(form)">
-            <div class="panel-task-color"></div>
-            <mat-form-field>
+            <mat-form-field class="task-type-field">
                 <mat-select name="task-type" [(ngModel)]="newTaskType">
                     <mat-option value="task"><span class="task-color task"></span>Task</mat-option>
                     <mat-option value="feature"><span class="task-color feature"></span>Feature</mat-option>
@@ -70,10 +60,12 @@
                     <mat-option value="research"><span class="task-color research"></span>Research</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput name="task-title" placeholder="New task" [(ngModel)]="newTaskTitle" #title="ngModel">      
+            <mat-form-field class="task-title-field">
+                <input matInput name="task-title" placeholder="New task" [(ngModel)]="newTaskTitle" #title="ngModel">
             </mat-form-field>
-            <button type="submit" mat-icon-button color="primary">+</button>
+            <div class="task-button-field">
+                <button type="submit" mat-button color="primary"><b>Create</b></button>
+            </div>
         </form>
     </mat-card>
 </div>

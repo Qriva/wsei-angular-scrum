@@ -1,6 +1,26 @@
 .task-row{
-    padding: 0.8em 1em;
+    padding: 0.6em 0.8em;
     margin: 0.3em 0;
+}
+
+.task-row .mat-chip{
+    margin-right: 1em;
+}
+
+.total-points{
+    margin-top: 1em;
+}
+
+.total-points .mat-chip{
+    margin-left: 1em;
+}
+
+.task-row button{
+    visibility: hidden;
+}
+
+.task-row:hover button{
+    visibility: visible;
 }
 
 .task-row.research{
@@ -26,6 +46,10 @@
 
 .backlog-section{
     margin-top: 1em;
+}
+
+.text-centered{
+    text-align: center;
 }
 
 .task-color{
@@ -66,4 +90,21 @@
 .content-wrapper{
     margin: 0 auto;
     max-width: 1024px;
+}
+
+.content-spacer{
+    flex: 1 1 auto;
+}
+
+.task-add-panel .task-title-field{
+    width: 70%;
+}
+
+.task-add-panel .task-type-field{
+    width: 18%;
+}
+
+.task-add-panel .task-button-field{
+    display: inline-block;
+    width: 10%;
 }

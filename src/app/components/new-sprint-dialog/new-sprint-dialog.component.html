@@ -1,0 +1,30 @@
+<form #sprintform="ngForm" (ngSubmit)="onSprintFormSubmit(sprintform)">
+  <mat-form-field class="example-full-width">
+      <input matInput ngModel name="sprint-name" placeholder="Name" value="" #name="ngModel" required>
+      <mat-error *ngIf="name.hasError('required')">
+        Sprint name is <strong>required</strong>
+      </mat-error>
+      {{ form }}
+  </mat-form-field>
+
+  <mat-form-field>
+      <input ngModel name="sprint-start-date" matInput [min]="minDate" [matDatepicker]="picker1" placeholder="Start date" #startDate="ngModel" required>
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+      <mat-error *ngIf="startDate.hasError('required')">
+          Valid start date is <strong>required</strong>
+      </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+      <input ngModel name="sprint-end-date" matInput [min]="minDate" [matDatepicker]="picker2" placeholder="End date" #endDate="ngModel" required>
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+      <mat-error *ngIf="endDate.hasError('required')">
+          Valid end date is <strong>required</strong>
+      </mat-error>
+  </mat-form-field>
+
+  <div>
+      <button type="submit" mat-raised-button color="primary">Create</button>
+  </div>
+</form>
