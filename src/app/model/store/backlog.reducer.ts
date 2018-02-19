@@ -31,7 +31,13 @@ const initialState: BacklogState = {
     tasks: []
 };
 
-
+/**
+ * 
+ * 
+ * @param {BacklogState} [state=initialState] 
+ * @param {Action} action 
+ * @returns {BacklogState} 
+ */
 export const BacklogReducer = function(state: BacklogState = initialState, action: Action): BacklogState {
 
     switch (action.type) {
@@ -72,6 +78,7 @@ export const BacklogReducer = function(state: BacklogState = initialState, actio
             const task = (<BacklogActions.EditTaskAction>action).task;
 
             let taskIndex = state.ids.indexOf(task.id);
+
             // Skip if -1 becasue does not exist
             if (taskIndex === -1) {
                 return state;

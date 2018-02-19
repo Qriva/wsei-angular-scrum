@@ -13,7 +13,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatNativeDateModule, MatChipsModule } from "@angular/material";
+import { MatNativeDateModule, MatChipsModule, MatIconModule } from "@angular/material";
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppComponent } from './app.component';
 import { TaskCardComponent } from './components/task-card/task-card.component';
@@ -26,11 +27,12 @@ import { AppStore, appStoreProviders } from './app.store';
 import { NewSprintDialogComponent } from './components/new-sprint-dialog/new-sprint-dialog.component';
 import { EditTaskDialogComponent } from './components/edit-task-dialog/edit-task-dialog.component';
 
+
 export const appRoutes: Routes = [
   { path: 'backlog',  component: BacklogComponent },
   { path: 'board',    component: BoardComponent },
   { path: '',
-    redirectTo: '/backlog',
+    redirectTo: '/board',
     pathMatch: 'full'
   },
   { path: '**', component: PageNotFoundComponent }
@@ -68,7 +70,9 @@ export const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatDialogModule,
-    MatChipsModule
+    MatChipsModule,
+    MatIconModule,
+    MatProgressBarModule
   ],
   entryComponents: [
     NewSprintDialogComponent,

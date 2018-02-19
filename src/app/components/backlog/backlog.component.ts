@@ -25,6 +25,7 @@ export class BacklogComponent implements OnInit {
   private backlogTasks: Array<Task>;
 
   constructor(@Inject(AppStore) private store: Redux.Store<AppState>, public dialog: MatDialog) {
+    // Listen for store changes and update variables
     store.subscribe(() => this.updateState());
     this.updateState();
   }
@@ -34,13 +35,13 @@ export class BacklogComponent implements OnInit {
 
   updateState() {
     const state = this.store.getState();
-
     // Store the task list
     this.currentSprint = state.sprint.current;
     // Store backlog tasks
     this.backlogTasks = state.backlog.tasks;
   }
 
+  // Open dialog for Spring creation
   openSprintCreateDialog(): void {
     // Open dialog
     let dialogRef = this.dialog.open(NewSprintDialogComponent, {
@@ -80,7 +81,9 @@ export class BacklogComponent implements OnInit {
   }
 
   moveTaskToSprint(task: Task){
+    // Add task to Sprint
     this.store.dispatch( addTaskToSprint(task) );
+    // And remove from Backlog
     this.store.dispatch({
       type: REMOVE_TASK_FROM_BACKLOG,
       task: task
@@ -88,7 +91,9 @@ export class BacklogComponent implements OnInit {
   }
 
   moveTaskToBacklog(task){
+    // Add task to Backlog
     this.store.dispatch( addTaskToBacklog(task) );
+    // And remove from Sprint TODO list
     this.store.dispatch( removeTaskFromTODO(task) );
   }
 
@@ -131,7 +136,7 @@ export class BacklogComponent implements OnInit {
       progress: [],
       done: []
     };
-    // Adding to store
+    // Adding Sprint to store
     this.store.dispatch({
       type: CREATE_SPRINT,
       sprint: sprint
@@ -146,6 +151,7 @@ export class BacklogComponent implements OnInit {
     return this.currentSprint;
   }
 
+  // Sum points of TODO list
   sumSprintTODOPoints(){
     let total = 0;
     for (let i = 0; i < this.currentSprint.todo.length; i++) {

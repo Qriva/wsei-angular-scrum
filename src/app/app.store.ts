@@ -17,6 +17,12 @@ const devtools: StoreEnhancer<AppState> =
   window['devToolsExtension'] ?
   window['devToolsExtension']() : f => f;
 
+/**
+ * Creating application store
+ * 
+ * @export
+ * @returns {Store<AppState>} 
+ */
 export function createAppStore(): Store<AppState> {
   return createStore<AppState>(
     reducer,

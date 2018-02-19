@@ -1,0 +1,26 @@
+.content-wrapper{
+    margin: 0 auto;
+    max-width: 1024px;
+}
+
+.content-spacer{
+    flex: 1 1 auto;
+}
+
+.link-back-container{
+    margin: 1em;
+    text-align: center;
+}
+
+
+.sprint-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sprint-wrapper .sprint-column{
+    flex-grow: 1;
+    width: 32%;
+    margin: 0.5%;
+    background: #f5f5f5;
+}

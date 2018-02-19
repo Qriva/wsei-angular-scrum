@@ -28,7 +28,13 @@ const initialState: SprintState = {
     current: null
 };
 
-
+/**
+ * 
+ * 
+ * @param {SprintState} [state=initialState] 
+ * @param {Action} action 
+ * @returns {SprintState} 
+ */
 export const SprintReducer = function(state: SprintState = initialState, action: Action): SprintState {
 
     switch (action.type) {
@@ -83,6 +89,39 @@ export const SprintReducer = function(state: SprintState = initialState, action:
                 current: Object.assign({}, state.current, {
                     todo: [ ...state.current.todo.slice(0, taskIndex), ...state.current.todo.slice(taskIndex + 1) ]
                 })
+            };
+        }
+
+        case SprintActions.MOVE_TASK: {
+            const task = (<SprintActions.MoveTaskction>action).task;
+            const fromColumn = (<SprintActions.MoveTaskction>action).from;
+            const toColumn = (<SprintActions.MoveTaskction>action).to;
+
+            // Skip if sprint does not exist
+            if (!state.current) {
+                return state;
+            }
+
+            let taskIndex = state.current[fromColumn].map(function(x) { return x.id; }).indexOf(task.id);
+
+            // Skip if task with id does not exists
+            if (taskIndex === -1) {
+                return;
+            }
+
+            let newTask = Object.assign({}, task);
+            
+            return {
+                current: Object.assign({}, state.current, {
+                    [fromColumn]: [ ...state.current[fromColumn].slice(0, taskIndex), ...state.current[fromColumn].slice(taskIndex + 1) ],
+                    [toColumn]: [ newTask, ...state.current[toColumn] ]
+                })
+            };
+        }
+
+        case SprintActions.CLOSE_SPRINT: {
+            return {
+                current: null
             };
         }
 

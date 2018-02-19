@@ -1,3 +1,25 @@
-<p>
-  task-card works!
-</p>
+<mat-card [ngClass]="[task.type]">
+  <mat-chip-list>
+      <mat-chip>{{ task.points }}</mat-chip>
+      <span class="task-name">{{ task.name }}</span>
+      <span class="content-spacer"></span>
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item [disabled]="disabledItem == 'todo'" (click)="moveTask(task,'todo')">
+              <mat-icon>bookmark</mat-icon>
+              <span>To do</span>
+            </button>
+            <button mat-menu-item [disabled]="disabledItem == 'progress'" (click)="moveTask(task,'progress')">
+              <mat-icon>queue</mat-icon>
+              <span>In progress</span>
+            </button>
+            <button mat-menu-item [disabled]="disabledItem == 'done'" (click)="moveTask(task,'done')">
+              <mat-icon>done</mat-icon>
+              <span>Done</span>
+            </button>
+          </mat-menu>
+  </mat-chip-list>
+  <div class="content">{{ task.description }}</div>
+</mat-card>

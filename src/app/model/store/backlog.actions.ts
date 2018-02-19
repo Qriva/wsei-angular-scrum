@@ -33,14 +33,3 @@ export const editTask: ActionCreator<EditTaskAction> = (task) => ({
     type: EDIT_TASK,
     task: task
 });
-
-//   export const SELECT_THREAD = '[Thread] Select';
-//   export interface SelectThreadAction extends Action {
-//     thread: Thread;
-//   }
-//   export const selectThread: ActionCreator<SelectThreadAction> =
-//     (thread) => ({
-//       type: SELECT_THREAD,
-//       thread: thread
-//     });
-  

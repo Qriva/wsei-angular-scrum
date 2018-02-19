@@ -25,6 +25,8 @@ export class EditTaskDialogComponent implements OnInit {
   private taskForm: FormGroup;
 
   constructor(@Inject(AppStore) private store: Redux.Store<AppState>, public dialogRef: MatDialogRef<BacklogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
+    
+    // Create Task form via builder
     this.taskForm = fb.group({
       'name':  [data.task.name, Validators.required],
       'type':  [data.task.type, Validators.required],
@@ -36,6 +38,7 @@ export class EditTaskDialogComponent implements OnInit {
     this.points = this.taskForm.controls['points'];
     this.description = this.taskForm.controls['description'];
 
+    // Listen for form changes and set new data on change 
     this.taskForm.valueChanges.subscribe( (form: Task) => {
       let name = form.name;
       if(form.name == null || form.name == ""){
@@ -53,6 +56,7 @@ export class EditTaskDialogComponent implements OnInit {
         type: form.type,
         points: points,
       };
+      // Update store
       this.store.dispatch(editTask(task));
     });
   }

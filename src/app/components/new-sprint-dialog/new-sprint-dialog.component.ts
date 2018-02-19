@@ -34,6 +34,7 @@ export class NewSprintDialogComponent implements OnInit {
       end: form.value['sprint-end-date']
     }
     form.reset();
+    // Return form results
     this.dialogRef.close(result);
   }
 

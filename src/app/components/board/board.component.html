@@ -1,3 +1,32 @@
-<p>
-  board works!
-</p>
+<div class="content-wrapper">
+    <mat-toolbar>
+        <span *ngIf="currentSprint == null" >No sprint</span>
+        <span *ngIf="currentSprint !== null" >{{ currentSprint.name }}</span>
+        <span class="content-spacer"></span>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item [disabled]="currentSprint == null" (click)="closeSprint()">
+                <mat-icon>close</mat-icon>
+                <span>Close sprint</span>
+            </button>
+        </mat-menu>
+    </mat-toolbar>
+    <mat-progress-bar mode="determinate" [value]="sprintProgress"></mat-progress-bar>
+    <div class="link-back-container">
+        <a *ngIf="currentSprint === null" mat-raised-button routerLink="/backlog" routerLinkActive="active">Go to Backlog</a>
+    </div>
+    <div *ngIf="currentSprint !== null" class="sprint-wrapper">
+        <div class="sprint-column">
+            <app-task-card *ngFor="let task of currentSprint.todo" [task]="task" [disabledItem]="'todo'" (taskMove)="moveTask($event,'todo')"></app-task-card>
+        </div>
+        <div class="sprint-column">
+            <app-task-card *ngFor="let task of currentSprint.progress" [task]="task" [disabledItem]="'progress'" (taskMove)="moveTask($event,'progress')"></app-task-card>
+        </div>
+        <div class="sprint-column">
+            <app-task-card *ngFor="let task of currentSprint.done" [task]="task" [disabledItem]="'done'" (taskMove)="moveTask($event,'done')"></app-task-card>
+        </div>
+    </div>
+
+</div>

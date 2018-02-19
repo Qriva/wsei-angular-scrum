@@ -1,0 +1,40 @@
+.content-spacer{
+    flex: 1 1 auto;
+}
+
+.research{
+    border-top: 4px solid #38b453;
+}
+.task{
+    border-top: 4px solid #3962b4;
+}
+.feature{
+    border-top: 4px solid #28b2ca;
+}
+.bug{
+    border-top: 4px solid #c04122;
+}
+.improvement{
+    border-top: 4px solid #6d36af;
+}
+
+.mat-card{
+    padding: 0.8em;
+    margin-bottom: 0.4em;
+}
+
+.mat-chip{
+    margin-right: 1em;
+}
+
+.content{
+    margin-left: 2.7em;
+    margin-top: 0.6em;
+    color: #666666;
+    font-size: 0.8em; 
+}
+
+.task-name{
+    text-overflow: ellipsis;
+    max-width: 60%;
+}
